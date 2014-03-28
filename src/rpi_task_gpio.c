@@ -13,7 +13,7 @@ void task_body (void *cookie)
 {
 for (;;) {
 // poll input pin for trigger
-if(digitalRead(INPUT_PIN
+
 // when triggered, do security task
 // ...else continue
 
