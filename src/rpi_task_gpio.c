@@ -22,12 +22,13 @@ void task_body (void *cookie)
 		#ifdef DEBUG
 			printf ("Trigger") ;
 		#endif
-		}
 		// when triggered, do security task
-		// ...else continue
-		
 		// send response on output pin
-		continue;
+		// digitalWrite(1);
+		}
+		else{
+			continue;
+		}
 	}
 }
 int main (int argc, char *argv[])
