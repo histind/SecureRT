@@ -10,23 +10,21 @@ void loop() {
   if((Serial.available() > 0) && (Serial.read() == 't')){
   Serial.println("trigger");
   while(!Serial.available() > 0){
-    // 20 uS to toggle pins
+    // 20 uS to toggle pins with digitalWrite on Uno
     digitalWrite(4, HIGH);
     digitalWrite(4, LOW);
     // due pin on/off:
-    //g_APinDescription[4].pPort -> PIO_SODR = g_APinDescription[4].ulPin;
-    //g_APinDescription[4].pPort -> PIO_CODR = g_APinDescription[4].ulPin;    // similate rpi delay
+    g_APinDescription[4].pPort -> PIO_SODR = g_APinDescription[4].ulPin;
+    g_APinDescription[4].pPort -> PIO_CODR = g_APinDescription[4].ulPin;    // similate rpi delay
     // digitalRead(3);
     // resolution of 4 uS
     delay(20);
-    
-    digitalWrite(3, HIGH);
-    digitalWrite(3, LOW);
-    delay(20);
     // due pin on/off:
-    //g_APinDescription[3].pPort -> PIO_SODR = g_APinDescription[3].ulPin;
-    //g_APinDescription[3].pPort -> PIO_CODR = g_APinDescription[3].ulPin;
+    //digitalWrite(3, HIGH);
+    //digitalWrite(3, LOW);
+    g_APinDescription[3].pPort -> PIO_SODR = g_APinDescription[3].ulPin;
+    g_APinDescription[3].pPort -> PIO_CODR = g_APinDescription[3].ulPin;
+    delay(20);    
     }
   }
-  //delay(125);
 }
