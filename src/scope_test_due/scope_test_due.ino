@@ -14,8 +14,8 @@ void loop() {
     digitalWrite(4, HIGH);
     digitalWrite(4, LOW);
     // due pin on/off:
-    g_APinDescription[4].pPort -> PIO_SODR = g_APinDescription[4].ulPin;
-    g_APinDescription[4].pPort -> PIO_CODR = g_APinDescription[4].ulPin;    // similate rpi delay
+    //g_APinDescription[4].pPort -> PIO_SODR = g_APinDescription[4].ulPin;
+    //g_APinDescription[4].pPort -> PIO_CODR = g_APinDescription[4].ulPin;    // similate rpi delay
     // digitalRead(3);
     // resolution of 4 uS
     delay(20);
