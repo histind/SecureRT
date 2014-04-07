@@ -11,7 +11,7 @@ void setup() {
   // runs once
   // flag to restart main menu
   Serial.begin(9600);
-  pinMode(3, OUTPUT);
+  pinMode(3, INPUT);
   pinMode(4, OUTPUT);
   restart = 1;
   data = 0;
@@ -24,9 +24,9 @@ void debug_mode(){
     digitalWrite(4, HIGH);
     digitalWrite(4, LOW);
     delay(20);
-    digitalWrite(3, HIGH);
-    digitalWrite(3, LOW);
-    delay(20);
+    //digitalWrite(3, HIGH);
+    //digitalWrite(3, LOW);
+    //delay(20);
     if(Serial.available() > 0){ 
         Serial.println("returning to menu...");
         restart = 1;
@@ -37,10 +37,10 @@ void debug_mode(){
 
 void test_mode(){
    while(1){
-     digitalWrite(3, HIGH);
-     digitalWrite(3, LOW);
-     while(digitalRead(4) != HIGH){
-       Serial.println("waiting for response on pin 4...");
+     digitalWrite(4, HIGH);
+     digitalWrite(4, LOW);
+     while(digitalRead(3) != HIGH){
+       Serial.println("waiting for response on pin 3...");
        if(Serial.available() > 0){
          restart = 1;
          return;
@@ -49,8 +49,10 @@ void test_mode(){
      // digitalRead is HIGH
      data++;
      print_result();
-     // time to see result
-     delay(500); 
+     // wait for pin 3 to release signal
+     while(digitalRead(3) != LOW){
+       //wait
+     }
    }
 }
 
@@ -98,3 +100,4 @@ void loop() {
     }
   }
 }
+

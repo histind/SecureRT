@@ -6,21 +6,21 @@
 #define TASK_MODE 0 /* No flags */
 #define TASK_STKSZ 0 /* Stack size (use default one) */
 // input and output pins
-#define INPUT_PIN 0
-#define OUTPUT_PIN 1
+#define OUTPUT_PIN 0
+#define INPUT_PIN 1
 // debug
 #define DEBUG
 RT_TASK task_desc;
 void task_body (void *cookie)
 { 
 	#ifdef DEBUG
-		printf ("Task Start") ;
+		printf ("Task Start");
 	#endif
 	for (;;) {
 		// poll input pin for trigger
-		if(digitalRead(0) != 0){
+		if(digitalRead(INPUT_PIN) != 0){
 		#ifdef DEBUG
-			printf ("Trigger") ;
+			printf ("Trigger\n");
 		#endif
 		// when triggered, do security task
 		// send response on output pin
@@ -34,16 +34,15 @@ void task_body (void *cookie)
 int main (int argc, char *argv[])
 {
 // Enable the on-goard GPIO
-
-  wiringPiSetup () ;
+wiringPiSetup ();
 
 #ifdef DEBUG
-  printf ("Raspberry Pi - Test\n") ;
+  printf ("Raspberry Pi - Test\n");
 #endif /*DEBUG*/
 
-// On-board button Input:
-
-  pinMode (0, INPUT) ;
+// setup pins
+pinMode (OUTPUT_PIN_PIN, OUTPUT);
+pinMode (INPUT_PIN, INPUT);
 int err;
 // turn off paging
 mlockall(MCL_CURRENT|MCL_FUTURE);
