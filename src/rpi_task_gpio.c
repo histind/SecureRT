@@ -33,30 +33,29 @@ void task_body (void *cookie)
 }
 int main (int argc, char *argv[])
 {
-// Enable the on-goard GPIO
-wiringPiSetup ();
+	// Enable the on-goard GPIO
+	wiringPiSetup ();
 
-#ifdef DEBUG
-  printf ("Raspberry Pi - Test\n");
-#endif /*DEBUG*/
+	#ifdef DEBUG
+	printf ("Raspberry Pi - Test\n");
+	#endif /*DEBUG*/
 
-// setup pins
-pinMode (OUTPUT_PIN_PIN, OUTPUT);
-pinMode (INPUT_PIN, INPUT);
-int err;
-// turn off paging
-mlockall(MCL_CURRENT|MCL_FUTURE);
-/* ... */
-err = rt_task_create(&task_desc,
-"SRT_task",
-TASK_STKSZ,
-TASK_PRIO,
-TASK_MODE);
-if (!err)
-rt_task_start(&task_desc,&task_body,NULL);
-/* ... */
+	// setup pins
+	pinMode (OUTPUT_PIN_PIN, OUTPUT);
+	pinMode (INPUT_PIN, INPUT);
+	int err;
+	// turn off paging
+	mlockall(MCL_CURRENT|MCL_FUTURE);
+	// create task
+	err = rt_task_create(&task_desc,
+		"SRT_task",
+		TASK_STKSZ,
+		TASK_PRIO,
+		TASK_MODE);
+	if (!err)
+		rt_task_start(&task_desc,&task_body,NULL);
 }
 void cleanup (void)
 {
-rt_task_delete(&task_desc);
+	rt_task_delete(&task_desc);
 }
