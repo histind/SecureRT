@@ -21,12 +21,14 @@ void task_body (void *cookie)
 		if(digitalRead(INPUT_PIN) != 0){
 		#ifdef DEBUG
 			printf ("Trigger\n");
+			printf ("%d", digitalRead(INPUT_PIN));
 		#endif
 		// when triggered, do security task
 		// send response on output pin
 		// digitalWrite(1);
 		}
 		else{
+			printf ("%d", digitalRead(INPUT_PIN));
 			continue;
 		}
 	}
@@ -41,7 +43,7 @@ int main (int argc, char *argv[])
 	#endif /*DEBUG*/
 
 	// setup pins
-	pinMode (OUTPUT_PIN_PIN, OUTPUT);
+	pinMode (OUTPUT_PIN, OUTPUT);
 	pinMode (INPUT_PIN, INPUT);
 	int err;
 	// turn off paging
