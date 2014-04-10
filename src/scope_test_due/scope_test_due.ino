@@ -44,7 +44,7 @@ void test_mode(){
      digitalWrite(4, HIGH);
      digitalWrite(4, LOW);
      while(digitalRead(3) != HIGH){
-       Serial.println("waiting for response on pin %c...", INPUT_PIN);
+       Serial.println("waiting for response on pin 3...");
        if(Serial.available() > 0){
          restart = 1;
          return;
