@@ -1,15 +1,18 @@
 #define NOP __asm__ __volatile__ ("nop\n\t")
+#define INPUT_PIN 3
+#define OUTPUT_PIN 4
+// due equivalent port manipulation
 //g_APinDescription[4].pPort -> PIO_SODR = g_APinDescription[4].ulPin;
 //g_APinDescription[4].pPort -> PIO_CODR = g_APinDescription[4].ulPin;
-#define DEBUG_MODE 1
-#define TEST_MODE 2
+// flag for restart and number of collected samples
 int restart, data;
+// results string
 char result[30];
+// user input
 char CMD;
 
 void setup() {
   // runs once
-  // flag to restart main menu
   Serial.begin(9600);
   pinMode(3, INPUT);
   pinMode(4, OUTPUT);
@@ -35,6 +38,7 @@ void debug_mode(){
     } 
   }
 
+// todo: add parameterized version?
 void test_mode(){
    while(1){
      digitalWrite(4, HIGH);
