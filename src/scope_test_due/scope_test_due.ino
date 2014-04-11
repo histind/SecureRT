@@ -41,11 +41,12 @@ void debug_mode(){
 
 // todo: add parameterized version?
 void test_mode(){
+   Serial.println("waiting for response on pin 3...");
    while(1){
      digitalWrite(4, HIGH);
      //digitalWrite(4, LOW);
      while(digitalRead(3) != HIGH){
-       Serial.println("waiting for response on pin 3...");
+       //Serial.println("waiting for response on pin 3...");
        if(Serial.available() > 0){
          digitalWrite(4, LOW);
          restart = 1;
