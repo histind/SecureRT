@@ -16,6 +16,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(3, INPUT);
   pinMode(4, OUTPUT);
+  digitalWrite(4, LOW);
   restart = 1;
   data = 0;
 }
@@ -40,17 +41,20 @@ void debug_mode(){
 
 // todo: add parameterized version?
 void test_mode(){
+   Serial.println("waiting for response on pin 3...");
    while(1){
      digitalWrite(4, HIGH);
-     digitalWrite(4, LOW);
+     //digitalWrite(4, LOW);
      while(digitalRead(3) != HIGH){
-       Serial.println("waiting for response on pin 3...");
+       //Serial.println("waiting for response on pin 3...");
        if(Serial.available() > 0){
+         digitalWrite(4, LOW);
          restart = 1;
          return;
        }
      }
      // digitalRead is HIGH
+     digitalWrite(4, LOW);
      data++;
      print_result();
      // wait for pin 3 to release signal
@@ -64,12 +68,8 @@ void help(){
   Serial.println("press 'd' for debug mode");
   Serial.println("      't' for test mode");
   Serial.println("      'r' for results");
-  while(1){
-     if(Serial.available() > 0){
-        restart = 0;
-        return;
-     } 
-  }
+  restart = 0;
+  return;
   
 }
 
@@ -77,6 +77,7 @@ void print_result(){
    sprintf (result, "number of samples is %d", data);
    Serial.println(result);
    restart = 0;
+   return;
 }
 void loop() {
   // put your main code here, to run repeatedly
