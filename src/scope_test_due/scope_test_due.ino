@@ -1,7 +1,7 @@
 #define NOP __asm__ __volatile__ ("nop\n\t")
 #define INPUT_PIN 3
 #define OUTPUT_PIN 4
-// due equivalent port manipulation
+// due-equivalent port manipulation
 //g_APinDescription[4].pPort -> PIO_SODR = g_APinDescription[4].ulPin;
 //g_APinDescription[4].pPort -> PIO_CODR = g_APinDescription[4].ulPin;
 // flag for restart and number of collected samples
@@ -54,10 +54,11 @@ void test_mode(){
        }
      }
      // digitalRead is HIGH
+     // turn off stimulus
      digitalWrite(4, LOW);
      data++;
      print_result();
-     // wait for pin 3 to release signal
+     // wait for response on pin 3 to terminate
      while(digitalRead(3) != LOW){
        //wait
      }
