@@ -13,6 +13,7 @@
 RT_TASK task_desc;
 void task_body (void *cookie)
 {
+	// notify switch to userspace
 	//rt_task_set_mode(T_WARNSW, 0, NULL); 
 	#ifdef DEBUG
 		rt_printf ("Task Start\n");
@@ -20,19 +21,19 @@ void task_body (void *cookie)
 	for(;;) {
 		// poll input pin for trigger
 		if(digitalRead(INPUT_PIN) != 0){
+			//start task marker
+			digitalWrite(0, 1);
 			#ifdef DEBUG
 				rt_printf ("Trigger\n");
 			#endif
-		
 			// when triggered, do security task
-			rt_task_sleep(100);
+			rt_task_sleep(1000);
 
-			// send response on output pin
-			digitalWrite(0, 1);
-			while(digitalRead(INPUT_PIN!=0)) { 
-				//wait for response
-			}
 			digitalWrite(0, 0);
+			//digitalWrite(0, 1);
+			while(digitalRead(INPUT_PIN!=0)) {
+				// wait for response
+			}
 		}
 		else{
 			rt_printf ("%d\n", digitalRead(INPUT_PIN));
@@ -47,7 +48,7 @@ int main (int argc, char *argv[])
 	wiringPiSetup ();
 	// rt print
 	rt_print_auto_init(1);
-	// turn off pagin
+	// turn off paging
 	mlockall(MCL_CURRENT|MCL_FUTURE);
 
 	#ifdef DEBUG
