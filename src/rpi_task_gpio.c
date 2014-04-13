@@ -12,26 +12,33 @@
 #define DEBUG
 RT_TASK task_desc;
 void task_body (void *cookie)
-{ 
+{
+	//rt_task_set_mode(T_WARNSW, 0, NULL); 
 	#ifdef DEBUG
 		rt_printf ("Task Start\n");
 	#endif
-	for (;;) {
+	for(;;) {
 		// poll input pin for trigger
 		if(digitalRead(INPUT_PIN) != 0){
-		#ifdef DEBUG
-			rt_printf ("Trigger\n");
-			rt_printf ("%d\n", digitalRead(INPUT_PIN));
-			return;
-		#endif
-		// when triggered, do security task
-		// send response on output pin
-		// digitalWrite(1);
+			#ifdef DEBUG
+				rt_printf ("Trigger\n");
+				rt_printf ("%d\n", digitalRead(INPUT_PIN));
+			#endif
+		
+			// when triggered, do security task
+			rt_task_sleep(100);
+
+			// send response on output pin
+			digitalWrite(0, 1);
+			while(digitalRead(INPUT_PIN!=0)) { 
+				//wait for response
+			}
+			digitalWrite(0, 0);
 		}
 		else{
 			rt_printf ("%d\n", digitalRead(INPUT_PIN));
-			delay(100);
-			continue;
+			//delay(100);
+			rt_task_sleep(100);
 		}
 	}
 }

@@ -1,1 +1,0 @@
-while :; do return=$(gpio read 1); if [ "$return" -eq 0 ] then echo 1 fi; done
