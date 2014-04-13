@@ -22,7 +22,6 @@ void task_body (void *cookie)
 		if(digitalRead(INPUT_PIN) != 0){
 			#ifdef DEBUG
 				rt_printf ("Trigger\n");
-				rt_printf ("%d\n", digitalRead(INPUT_PIN));
 			#endif
 		
 			// when triggered, do security task
@@ -38,7 +37,7 @@ void task_body (void *cookie)
 		else{
 			rt_printf ("%d\n", digitalRead(INPUT_PIN));
 			//delay(100);
-			rt_task_sleep(100);
+			//rt_task_sleep(100);
 		}
 	}
 }
@@ -52,7 +51,7 @@ int main (int argc, char *argv[])
 	mlockall(MCL_CURRENT|MCL_FUTURE);
 
 	#ifdef DEBUG
-	rt_printf ("Raspberry Pi - Test\n");
+	rt_printf ("SecureRT - Test\n");
 	#endif /*DEBUG*/
 
 	// setup pins
