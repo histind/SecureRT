@@ -17,6 +17,7 @@ void task_body (void *cookie)
 	//rt_task_set_mode(T_WARNSW, 0, NULL); 
 	#ifdef DEBUG
 		rt_printf ("Task Start\n");
+		delay(1000);
 	#endif
 	for(;;) {
 		// poll input pin for trigger
@@ -27,8 +28,8 @@ void task_body (void *cookie)
 				rt_printf ("Trigger\n");
 			#endif
 			// when triggered, do security task
-			rt_task_sleep(1000);
-
+			//rt_task_sleep(1000);
+			delay(2);
 			digitalWrite(0, 0);
 			//digitalWrite(0, 1);
 			while(digitalRead(INPUT_PIN!=0)) {
@@ -37,8 +38,8 @@ void task_body (void *cookie)
 		}
 		else{
 			rt_printf ("0\n");
-			//delay(10);
-			rt_task_sleep(1000);
+			delay(1);
+			//rt_task_sleep(1000);
 		}
 	}
 }
@@ -53,6 +54,7 @@ int main (int argc, char *argv[])
 
 	#ifdef DEBUG
 	rt_printf ("SecureRT - Test\n");
+	delay(1000);
 	#endif /*DEBUG*/
 
 	// setup pins
