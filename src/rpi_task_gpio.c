@@ -37,8 +37,8 @@ void task_body (void *cookie)
 		}
 		else{
 			rt_printf ("0\n");
-			delay(1);
-			//rt_task_sleep(1);
+			//delay(10);
+			rt_task_sleep(1000);
 		}
 	}
 }
@@ -70,6 +70,7 @@ int main (int argc, char *argv[])
 	while(1){
 		//wait for rt_task
 	}
+	return(0);
 }
 void cleanup (void)
 {
