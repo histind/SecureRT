@@ -36,9 +36,9 @@ void task_body (void *cookie)
 			}
 		}
 		else{
-			rt_printf ("%d\n", digitalRead(INPUT_PIN));
-			//delay(100);
-			//rt_task_sleep(100);
+			rt_printf ("0\n");
+			delay(1);
+			//rt_task_sleep(1);
 		}
 	}
 }
