@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/mman.h>
 #include <native/task.h>
 #include <wiringPi.h> 
@@ -15,8 +17,54 @@
 // debug
 #define DEBUG
 RT_TASK task_desc;
+
+void handle_errors(){
+	ERR_print_errors_fp(stderr);
+	abort();
+
+
+}
+
+int encrypt(unsigned char * plaintext, int plaintext_len, unsigned char * key, unsigned char * iv, unsigned char * ciphertext) {
+	EVP_CIPHER_CTX *ctx;
+	int len;
+	int ciphertext_len;
+
+	// init context
+	if(!(ctx = EVP_CIPHER_CTX_new())){
+       		 handle_errors();
+	}
+	// init encryption operation
+	if(1 != EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv)){
+		handle_errors();
+	}
+	// obtain encrypted output
+	if(1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len)){
+		handle_errors();
+		//ciphertext_len = len; 
+	}
+	ciphertext_len=len;
+	// finalize 
+	if(1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len)){
+		handle_errors();
+		//ciphertext_len += len;
+	}
+	ciphertext_len += len;
+	EVP_CIPHER_CTX_free(ctx);
+	return ciphertext_len;
+
+}
 void task_body (void *cookie)
 {
+        int ciphertext_len; 
+        unsigned char key[] = "01234567890123456789012345678901";
+	unsigned char iv[] = "01234567890123456";
+        unsigned char plaintext[] = "the quick brown fox jumps over the lazy dog";
+        unsigned char ciphertext[128];
+	// init library
+	ERR_load_crypto_strings();
+	OpenSSL_add_all_algorithms();
+	OPENSSL_config(NULL);  
 	// notify switch to userspace
 	//rt_task_set_mode(T_WARNSW, 0, NULL); 
 	#ifdef DEBUG
@@ -32,10 +80,15 @@ void task_body (void *cookie)
 				rt_printf ("Trigger\n");
 			#endif
 			// when triggered, do security task
-			rt_task_sleep(100000);
-			//delay(2);
+			//rt_printf("%s\n", plaintext);
+			//rt_task_sleep(100000);
+			//delay(100);
+			ciphertext_len = encrypt(plaintext, strlen(plaintext), key, iv, ciphertext);
+			//rt_printf("Ciphertext is %d:\n", ciphertext_len);
+			//BIO_dump_fp(stdout, ciphertext, ciphertext_len);
+			//EVP_cleanup();
+			//ERR_free_strings();
 			digitalWrite(0, 0);
-			//digitalWrite(0, 1);
 			while(digitalRead(INPUT_PIN!=0)) {
 				// wait for response
 			}
@@ -46,10 +99,12 @@ void task_body (void *cookie)
 			//rt_task_sleep(1);
 		}
 	}
+	//EVP_cleanup();
+	//ERR_free_strings();
 }
 int main (int argc, char *argv[])
 {
-	// Enable the on-goard GPIO
+	// Enable the on-board GPIO
 	wiringPiSetup ();
 	// rt print
 	rt_print_auto_init(1);
