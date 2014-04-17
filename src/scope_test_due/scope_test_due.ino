@@ -1,6 +1,6 @@
 #define NOP __asm__ __volatile__ ("nop\n\t")
 #define INPUT_PIN 3
-#define OUTPUT_PIN 4
+#define OUTPUT_PIN 
 // due-equivalent port manipulation
 //g_APinDescription[4].pPort -> PIO_SODR = g_APinDescription[4].ulPin;
 //g_APinDescription[4].pPort -> PIO_CODR = g_APinDescription[4].ulPin;
@@ -47,17 +47,17 @@ void test_mode(){
      //digitalWrite(4, LOW);
      while(digitalRead(3) != HIGH){
        //Serial.println("waiting for response on pin 3...");
-       if(Serial.available() > 0){
-         digitalWrite(4, LOW);
-         restart = 1;
-         return;
-       }
+       //if(Serial.available() > 0){
+       //  digitalWrite(4, LOW);
+       //  restart = 1;
+       // return;
+       //}
      }
-     // digitalRead is HIGH
+     // digitalRead is HIGH on 3
      // turn off stimulus
      digitalWrite(4, LOW);
-     data++;
-     print_result();
+     //data++;
+     //print_result();
      // wait for response on pin 3 to terminate
      while(digitalRead(3) != LOW){
        //wait
