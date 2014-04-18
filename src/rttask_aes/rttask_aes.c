@@ -41,13 +41,13 @@ int encrypt(unsigned char * plaintext, int plaintext_len, unsigned char * key, u
 	// obtain encrypted output
 	if(1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len)){
 		handle_errors();
-		//ciphertext_len = len; 
+		ciphertext_len = len; 
 	}
 	ciphertext_len=len;
 	// finalize 
 	if(1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len)){
 		handle_errors();
-		//ciphertext_len += len;
+		ciphertext_len += len;
 	}
 	ciphertext_len += len;
 	EVP_CIPHER_CTX_free(ctx);
@@ -84,7 +84,7 @@ void task_body (void *cookie)
 			//rt_task_sleep(100000);
 			//delay(100);
 			ciphertext_len = encrypt(plaintext, strlen(plaintext), key, iv, ciphertext);
-			//rt_printf("Ciphertext is %d:\n", ciphertext_len);
+			rt_printf("Ciphertext is %d:\n", ciphertext_len);
 			//BIO_dump_fp(stdout, ciphertext, ciphertext_len);
 			//EVP_cleanup();
 			//ERR_free_strings();
