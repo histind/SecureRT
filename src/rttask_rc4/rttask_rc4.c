@@ -35,7 +35,7 @@ int encrypt(unsigned char * plaintext, int plaintext_len, unsigned char * key, u
        		 handle_errors();
 	}
 	// init encryption operation
-	if(1 != EVP_EncryptInit_ex(ctx, EVP_rc5_32_12_16_cbc(), NULL, key, iv)){
+	if(1 != EVP_EncryptInit_ex(ctx, EVP_rc4(), NULL, key, iv)){
 		handle_errors();
 	}
 	// obtain encrypted output

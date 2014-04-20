@@ -1,1 +1,0 @@
-gcc -I/usr/xenomai/include -D_GNU_SOURCE -D_REENTRANT -D__XENO__ -lnative -L/usr/xenomai/lib -lxenomai -lpthread -lrt -lwiringPi -lcrypto -lssl rttask_rc5.c -o rttask_rc5
