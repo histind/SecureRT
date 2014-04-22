@@ -1,0 +1,1 @@
+gcc -I/usr/xenomai/include -I/home/pi/openssl/include -D_GNU_SOURCE -D_REENTRANT -D__XENO__ -lnative -L/usr/xenomai/lib -lxenomai -lpthread -lrt -lwiringPi -lcrypto -lssl rttask_no_load.c -o rttask_no_load

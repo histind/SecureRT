@@ -15,7 +15,7 @@
 #define OUTPUT_PIN 0
 #define INPUT_PIN 1
 // debug
-#define DEBUG
+//#define DEBUG
 RT_TASK task_desc;
 
 void handle_errors(){
@@ -84,7 +84,7 @@ void task_body (void *cookie)
 			//rt_task_sleep(100000);
 			//delay(100);
 			ciphertext_len = encrypt(plaintext, strlen(plaintext), key, iv, ciphertext);
-			rt_printf("Ciphertext is %d:\n", ciphertext_len);
+			//rt_printf("Ciphertext is %d:\n", ciphertext_len);
 			//BIO_dump_fp(stdout, ciphertext, ciphertext_len);
 			//EVP_cleanup();
 			//ERR_free_strings();
@@ -104,12 +104,13 @@ void task_body (void *cookie)
 }
 int main (int argc, char *argv[])
 {
+	// turn off paging
+	mlockall(MCL_CURRENT|MCL_FUTURE);
+	
 	// Enable the on-board GPIO
 	wiringPiSetup ();
 	// rt print
 	rt_print_auto_init(1);
-	// turn off paging
-	mlockall(MCL_CURRENT|MCL_FUTURE);
 
 	#ifdef DEBUG
 	rt_printf ("SecureRT - Test\n");

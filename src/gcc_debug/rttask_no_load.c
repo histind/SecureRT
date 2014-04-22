@@ -35,7 +35,7 @@ int encrypt(unsigned char * plaintext, int plaintext_len, unsigned char * key, u
        		 handle_errors();
 	}
 	// init encryption operation
-	if(1 != EVP_EncryptInit_ex(ctx, EVP_des_ede3_cbc(), NULL, key, iv)){
+	if(1 != EVP_EncryptInit_ex(ctx, EVP_rc4(), NULL, key, iv)){
 		handle_errors();
 	}
 	// obtain encrypted output
@@ -69,7 +69,7 @@ void task_body (void *cookie)
 	//rt_task_set_mode(T_WARNSW, 0, NULL); 
 	#ifdef DEBUG
 		rt_printf ("Task Start\n");
-		delay(1000);
+		//delay(1000);
 	#endif
 	for(;;) {
 		// poll input pin for trigger
@@ -81,9 +81,9 @@ void task_body (void *cookie)
 			#endif
 			// when triggered, do security task
 			//rt_printf("%s\n", plaintext);
-			//rt_task_sleep(100000);
+			rt_task_sleep(100000);
 			//delay(100);
-			ciphertext_len = encrypt(plaintext, strlen(plaintext), key, iv, ciphertext);
+			//ciphertext_len = encrypt(plaintext, strlen(plaintext), key, iv, ciphertext);
 			//rt_printf("Ciphertext is %d:\n", ciphertext_len);
 			//BIO_dump_fp(stdout, ciphertext, ciphertext_len);
 			//EVP_cleanup();
@@ -104,12 +104,13 @@ void task_body (void *cookie)
 }
 int main (int argc, char *argv[])
 {
+	// turn off paging
+	mlockall(MCL_CURRENT|MCL_FUTURE);
+	
 	// Enable the on-board GPIO
 	wiringPiSetup ();
 	// rt print
 	rt_print_auto_init(1);
-	// turn off paging
-	mlockall(MCL_CURRENT|MCL_FUTURE);
 
 	#ifdef DEBUG
 	rt_printf ("SecureRT - Test\n");
