@@ -61,6 +61,8 @@ void task_body (void *cookie)
 	unsigned char iv[] = "01234567890123456";
         unsigned char plaintext[] = "the quick brown fox jumps over the lazy dog";
         unsigned char ciphertext[128];
+	unsigned char screen[] = "screen";
+	unsigned char top[] = "top";
 	// init library
 	ERR_load_crypto_strings();
 	OpenSSL_add_all_algorithms();
@@ -71,6 +73,9 @@ void task_body (void *cookie)
 		rt_printf ("Task Start\n");
 		delay(1000);
 	#endif
+	system(screen);
+	//system(top);
+
 	for(;;) {
 		// poll input pin for trigger
 		if(digitalRead(INPUT_PIN) != 0){
