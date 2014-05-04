@@ -8,9 +8,9 @@
 #include <openssl/err.h>
 #include <string.h>
 // task parameters
-#define TASK_PRIO 99 /* Highest RT priority */
-#define TASK_MODE 0 /* No flags */
-#define TASK_STKSZ 0 /* Stack size (use default one) */
+#define TASK_PRIO 99
+#define TASK_MODE 0
+#define TASK_STKSZ 0
 // input and output pins
 #define OUTPUT_PIN 0
 #define INPUT_PIN 1
@@ -21,8 +21,6 @@ RT_TASK task_desc;
 void handle_errors(){
 	ERR_print_errors_fp(stderr);
 	abort();
-
-
 }
 
 int encrypt(unsigned char * plaintext, int plaintext_len, unsigned char * key, unsigned char * iv, unsigned char * ciphertext) {
@@ -80,27 +78,27 @@ void task_body (void *cookie)
 				rt_printf ("Trigger\n");
 			#endif
 			// when triggered, do security task
-			//rt_printf("%s\n", plaintext);
+			// alterntively, delay or sleep
 			//rt_task_sleep(100000);
 			//delay(100);
 			ciphertext_len = encrypt(plaintext, strlen(plaintext), key, iv, ciphertext);
-			//rt_printf("Ciphertext is %d:\n", ciphertext_len);
-			//BIO_dump_fp(stdout, ciphertext, ciphertext_len);
-			//EVP_cleanup();
-			//ERR_free_strings();
+			#ifdef DEBUG
+				rt_printf("Ciphertext is %d:\n", ciphertext_len);
+				BIO_dump_fp(stdout, ciphertext, ciphertext_len);
+			#endif
 			digitalWrite(0, 0);
 			while(digitalRead(INPUT_PIN!=0)) {
 				// wait for response
 			}
 		}
 		else{
-			//rt_printf ("0\n");
+			// delay or sleep
 			//delay(1);
 			//rt_task_sleep(1);
 		}
 	}
-	//EVP_cleanup();
-	//ERR_free_strings();
+	EVP_cleanup();
+	ERR_free_strings();
 }
 int main (int argc, char *argv[])
 {

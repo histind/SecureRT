@@ -80,27 +80,27 @@ void task_body (void *cookie)
 				rt_printf ("Trigger\n");
 			#endif
 			// when triggered, do security task
-			//rt_printf("%s\n", plaintext);
+			// alternatively, use delay or sleep
 			//rt_task_sleep(100000);
 			//delay(100);
 			ciphertext_len = encrypt(plaintext, strlen(plaintext), key, iv, ciphertext);
-			//rt_printf("Ciphertext is %d:\n", ciphertext_len);
-			//BIO_dump_fp(stdout, ciphertext, ciphertext_len);
-			//EVP_cleanup();
-			//ERR_free_strings();
+			#ifdef DEBUG
+				rt_printf("Ciphertext is %d:\n", ciphertext_len);
+				BIO_dump_fp(stdout, ciphertext, ciphertext_len);
+			#endif
 			digitalWrite(0, 0);
 			while(digitalRead(INPUT_PIN!=0)) {
 				// wait for response
 			}
 		}
 		else{
-			//rt_printf ("0\n");
+			// debug delay or sleep
 			//delay(1);
 			//rt_task_sleep(1);
 		}
 	}
-	//EVP_cleanup();
-	//ERR_free_strings();
+	EVP_cleanup();
+	ERR_free_strings();
 }
 int main (int argc, char *argv[])
 {
